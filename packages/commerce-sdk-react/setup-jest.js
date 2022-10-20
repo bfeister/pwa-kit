@@ -6,6 +6,8 @@
  */
 import '@testing-library/jest-dom'
 import {configure} from '@testing-library/dom'
+import {networkInterfaces} from 'os'
+import nock from 'nock'
 
 // Default testing library timeout is too short for serial network calls
 configure({
@@ -35,5 +37,9 @@ class LocalStorageMock {
 const localStorageMock = new LocalStorageMock()
 
 Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock
+    value: localStorageMock,
+})
+
+global.beforeEach(() => {
+    nock.restore()
 })
